@@ -466,24 +466,24 @@
 
                 <!-- Form -->
                 <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <form name="contact" method="POST" data-netlify="true">
+                    <form name="contact" onsubmit="event.preventDefault(); sendWhatsApp();">
                         <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label class="block text-sm font-bold text-dark mb-2" data-i18n="form_name">姓名</label>
-                                <input type="text"
+                                <input type="text" id="wa-name" required
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                                     placeholder="Your Name">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-dark mb-2"
                                     data-i18n="form_phone">聯絡電話</label>
-                                <input type="tel"
+                                <input type="tel" id="wa-phone" required
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                                     placeholder="01x-xxxxxxx">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-dark mb-2" data-i18n="form_req">需求類型</label>
-                                <select
+                                <select id="wa-req"
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors">
                                     <option data-i18n="opt_quote">詢問報價 / BOQ</option>
                                     <option data-i18n="opt_site">現場勘查 (Site Assessment)</option>
@@ -492,7 +492,7 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-dark mb-2" data-i18n="form_msg">訊息內容</label>
-                                <textarea rows="4"
+                                <textarea rows="4" id="wa-msg"
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                                     placeholder="Project details..."></textarea>
                             </div>
@@ -731,6 +731,28 @@
             document.getElementById('lang-toggle-desktop').innerText = btnText;
             document.getElementById('lang-toggle-mobile').innerText = btnText;
             document.documentElement.lang = currentLang;
+        }
+
+        function sendWhatsApp() {
+            const name = document.getElementById('wa-name').value;
+            const phone = document.getElementById('wa-phone').value;
+            const requirementElement = document.getElementById('wa-req');
+            const requirement = requirementElement.options[requirementElement.selectedIndex].text;
+            const message = document.getElementById('wa-msg').value;
+
+            // Construct WhatsApp Message
+            const text = `Hi HON Construction, I would like to enquire about:
+            
+*Name:* ${name}
+*Phone:* ${phone}
+*Requirement:* ${requirement}
+*Message:* ${message}
+            `.trim();
+
+            const encodedText = encodeURIComponent(text);
+            const url = `https://wa.me/60135199102?text=${encodedText}`;
+
+            window.open(url, '_blank');
         }
     </script>
 </body>
