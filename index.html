@@ -291,7 +291,7 @@
                     <h2 class="text-3xl sm:text-4xl font-display font-bold mb-4" data-i18n="proj_title">精選專案案例</h2>
                     <p class="text-gray-400" data-i18n="proj_desc">我們近期完成與進行中的重點基礎設施工程。</p>
                 </div>
-                <a href="#"
+                <a href="javascript:void(0)" onclick="openProjectsModal()"
                     class="mt-6 md:mt-0 text-primary font-bold hover:text-white transition-colors flex items-center"
                     data-i18n="proj_link">
                     查看所有專案 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -507,12 +507,88 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-12 border-t border-zinc-800">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-gray-500 mb-2">&copy; 2025 HON Construction Sdn. Bhd. (Co. No. 1995...) </p>
-            <p class="text-sm text-gray-600" data-i18n="footer_lic">持牌水網與排污工程承包商 (CIDB G5). 符合所有標準。</p>
-        </div>
     </footer>
+
+    <!-- Projects Modal -->
+    <div id="projects-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/90 transition-opacity backdrop-blur-sm" onclick="closeProjectsModal()"></div>
+
+        <!-- Modal Panel -->
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div
+                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-6xl">
+
+                    <!-- Header -->
+                    <div
+                        class="bg-gray-50 px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-100">
+                        <div>
+                            <h3 class="text-xl font-bold leading-6 text-gray-900 font-display" id="modal-title"
+                                data-i18n="modal_title">所有專案列表</h3>
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500" data-i18n="modal_desc">完整工程實績紀錄 (35+ Kids)
+                            </p>
+                        </div>
+                        <button type="button"
+                            class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                            onclick="closeProjectsModal()">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Content (Table) -->
+                    <div class="px-4 py-5 sm:p-6 max-h-[70vh] overflow-y-auto">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50 sticky top-0 z-10">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                            data-i18n="th_project">專案名稱</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                            data-i18n="th_client">客戶</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                            data-i18n="th_value">合約金額</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                            data-i18n="th_status">狀態</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                            data-i18n="th_year">年份</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="projects-table-body">
+                                    <!-- Rows will be injected here -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-20 text-center text-gray-500">
+                                            <div class="flex justify-center flex-col items-center">
+                                                <svg class="animate-spin h-8 w-8 text-primary mb-4"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                        stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                    </path>
+                                                </svg>
+                                                <span data-i18n="loading">載入中...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Smooth scroll for anchor links
@@ -753,6 +829,388 @@
             const url = `https://wa.me/60135199102?text=${encodedText}`;
 
             window.open(url, '_blank');
+        }
+
+        // --- Projects Modal Logic ---
+
+        const modalTranslations = {
+            "en": {
+                "modal_title": "All Projects List",
+                "modal_desc": "Complete track record of engineering projects",
+                "th_project": "Project Title",
+                "th_client": "Client",
+                "th_value": "Value",
+                "th_status": "Status",
+                "th_year": "Year",
+                "loading": "Loading data...",
+                "status_complete": "Complete",
+                "status_progress": "In Progress"
+            },
+            "cn": {
+                "modal_title": "所有專案列表",
+                "modal_desc": "完整工程實績紀錄 (35+ 年)",
+                "th_project": "專案名稱",
+                "th_client": "客戶",
+                "th_value": "合約金額",
+                "th_status": "狀態",
+                "th_year": "年份",
+                "loading": "載入中...",
+                "status_complete": "已完工",
+                "status_progress": "進行中"
+            }
+        };
+
+        // Merge into main translations if needed, or handle locally in modal render
+        Object.assign(translations.en, modalTranslations.en);
+        Object.assign(translations.cn, modalTranslations.cn);
+
+        // Data directly inlined to avoid CORS issues on local filesystem
+        const staticProjectsData = [
+            {
+                "No": 1,
+                "Project_Title": "FASA 2 (Lot 169) - Multiple Housing Units (Fasa 2A/2B)",
+                "Client": "Cosmo Property Management Sdn. Bhd.",
+                "Contract_Value": "RM6,667,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2026-02-28",
+                "Notes": "Internal & external plumbing, water reticulation, sewerage",
+                "contract_value_num": 6667000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 2,
+                "Project_Title": "Pemasangan Air: 2 blocks factory & office (Plot 1), Pekan Bukit Selambau",
+                "Client": "Lagenda Setiamas Sdn. Bhd.",
+                "Contract_Value": "RM1,500,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-08-01",
+                "end_date_iso": "2026-07-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 1500000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 3,
+                "Project_Title": "Mixed development: shops & single-storey terraces (plots 60710-60741)",
+                "Client": "MCL Holdings Sdn. Bhd.",
+                "Contract_Value": "RM1,110,180.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2026-03-30",
+                "Notes": "External plumbing, water reticulation & sewerage",
+                "contract_value_num": 1110180.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 4,
+                "Project_Title": "Factory + Office (Lot PT 98613) - Icon Packaging (HHC Building Construction)",
+                "Client": "HHC Building Construction Sdn. Bhd. (for Icon Packaging)",
+                "Contract_Value": "RM862,705.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2025-12-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 862705.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 5,
+                "Project_Title": "Training Centre (Phase 1) facilities & utilities",
+                "Client": "Geowood Construction Sdn. Bhd.",
+                "Contract_Value": "RM711,076.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2026-02-01",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 711076.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 6,
+                "Project_Title": "Water installation for 2 blocks factory + offices (Plot 1), Bukit Selambau",
+                "Client": "Far East Agenda Sdn. Bhd.",
+                "Contract_Value": "RM468,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2026-03-30",
+                "Notes": "CWSP internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 468000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 7,
+                "Project_Title": "Residential development (18 units + single/double-storey houses), Sungai Petani",
+                "Client": "Jubli Harmony",
+                "Contract_Value": "RM140,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-06-01",
+                "end_date_iso": "2026-03-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 140000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 8,
+                "Project_Title": "1-unit factory + 2-storey office - Icon Packaging",
+                "Client": "Icon Packaging Sdn. Bhd.",
+                "Contract_Value": "RM951,805.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-01-01",
+                "end_date_iso": "2025-11-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 951805.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 9,
+                "Project_Title": "Factory & office development (Pekan Bukit Selambau) — Gaomart",
+                "Client": "Tetuan Gaomart (M) Sdn Bhd",
+                "Contract_Value": "RM280,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-07-01",
+                "end_date_iso": "2026-07-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 280000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 10,
+                "Project_Title": "Open factory for charcoal processing + office & parking",
+                "Client": "Best Carbon Chemical Sdn. Bhd.",
+                "Contract_Value": "RM245,000.00",
+                "Status": "Developer On-hold",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 245000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 11,
+                "Project_Title": "Amendment to approved plan — Factory & office (Lot 86)",
+                "Client": "Yetta Steel Industries Sdn Bhd",
+                "Contract_Value": "RM244,000.00",
+                "Status": "In Progress",
+                "start_date_iso": "2025-11-15",
+                "end_date_iso": "2026-06-30",
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 244000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 12,
+                "Project_Title": "Large mixed residential development (Bandar Lunas) — multiple housing types",
+                "Client": "Sri Pengkalan Binaan Sdn. Bhd.",
+                "Contract_Value": "RM1,440,000.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": "Internal & external plumbing, water reticulation & sewerage",
+                "contract_value_num": 1440000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 13,
+                "Project_Title": "Addition of single-storey factory (plastic processing) — External sewerage & reticulation",
+                "Client": "Respack Polychem Sdn. Bhd.",
+                "Contract_Value": "RM300,900.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 300900.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 14,
+                "Project_Title": "132kV Main Substation Buildings & Electrical Structures (Solar PV project)",
+                "Client": "BGMCBRAS Power Sdn. Bhd.",
+                "Contract_Value": "RM1,484,238.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": "Includes buildings for solar PV substation",
+                "contract_value_num": 1484238.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 15,
+                "Project_Title": "3 Blocks factory + offices + facilities (Bukit Selambau)",
+                "Client": "Genting Ehsan (SP) Sdn. Bhd.",
+                "Contract_Value": "RM1,130,000.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 1130000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 16,
+                "Project_Title": "95-unit apartment plumbing works (Alor Setar)",
+                "Client": "Imperio Development Sdn. Bhd.",
+                "Contract_Value": "RM1,030,000.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": "Internal cold water & sanitary plumbing services",
+                "contract_value_num": 1030000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 17,
+                "Project_Title": "Residential development — semi-detached & terrace houses (Bayan Hill)",
+                "Client": "Paramount Property Construction Sdn. Bhd.",
+                "Contract_Value": "RM2,800,000.00",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 2800000.0,
+                "is_pe_capacity": false
+            },
+            {
+                "No": 20,
+                "Project_Title": "Sewage treatment plant (Bandar Jitra)",
+                "Client": "MKMutiara Sdn. Bhd.",
+                "Contract_Value": "(4990 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": "Sewage treatment plant capacity noted",
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            },
+            {
+                "No": 21,
+                "Project_Title": "Upgrade sewage treatment plant (Bandar Bedong)",
+                "Client": "OIB Properties (KV) Sdn. Bhd.",
+                "Contract_Value": "(2770 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            },
+            {
+                "No": 22,
+                "Project_Title": "Wastewater pumping station for Seri Temin housing scheme",
+                "Client": "Jesin Development (Bukit Kayu Hitam) Sdn Bhd",
+                "Contract_Value": "(2015 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            },
+            {
+                "No": 23,
+                "Project_Title": "Sewage treatment plant for mixed development (Sungai Lalang)",
+                "Client": "Hongjin Construction Sdn Bhd",
+                "Contract_Value": "(2192 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            },
+            {
+                "No": 24,
+                "Project_Title": "Sewage treatment plant for 6-block apartment (1200 units) - Alor Setar",
+                "Client": "Harta Sentosa Sdn Bhd",
+                "Contract_Value": "(6200 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            },
+            {
+                "No": 25,
+                "Project_Title": "Upgrade treatment plant for hotel conversion works (Jelutong)",
+                "Client": "GMHotel Sdn Bhd",
+                "Contract_Value": "(3110 PE)",
+                "Status": "Complete",
+                "start_date_iso": null,
+                "end_date_iso": null,
+                "Notes": null,
+                "contract_value_num": 0,
+                "is_pe_capacity": true
+            }
+        ];
+
+        let projectsData = staticProjectsData;
+
+        async function openProjectsModal() {
+            const modal = document.getElementById('projects-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+
+            // Re-apply current language to modal static text
+            const langData = translations[currentLang];
+            document.querySelector('[data-i18n="modal_title"]').innerText = langData.modal_title;
+            document.querySelector('[data-i18n="modal_desc"]').innerText = langData.modal_desc;
+            document.querySelector('[data-i18n="th_project"]').innerText = langData.th_project;
+            document.querySelector('[data-i18n="th_client"]').innerText = langData.th_client;
+            document.querySelector('[data-i18n="th_value"]').innerText = langData.th_value;
+            document.querySelector('[data-i18n="th_status"]').innerText = langData.th_status;
+            document.querySelector('[data-i18n="th_year"]').innerText = langData.th_year;
+            document.querySelector('[data-i18n="loading"]').innerText = langData.loading;
+
+            // Render table with static data
+            renderProjectsTable();
+        }
+
+        function closeProjectsModal() {
+            document.getElementById('projects-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderProjectsTable() {
+            const tbody = document.getElementById('projects-table-body');
+            tbody.innerHTML = '';
+
+            projectsData.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 transition-colors';
+
+                // Status Logic
+                const isComplete = p.Status && (p.Status.toLowerCase().includes('complete') || p.Status === 'Completed');
+                const statusText = isComplete ? (currentLang === 'cn' ? '已完工' : 'Completed') : (currentLang === 'cn' ? '進行中' : 'In Progress');
+                const statusClass = isComplete ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
+
+                // Year Logic
+                let year = '';
+                if (p.start_date_iso) year = p.start_date_iso.substring(0, 4);
+                if (p.end_date_iso) year += ' - ' + p.end_date_iso.substring(0, 4);
+
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-normal">
+                        <div class="text-sm font-bold text-gray-900">${p.Project_Title}</div>
+                        <div class="text-xs text-gray-500 md:hidden mt-1">${p.Client}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-normal hidden md:table-cell">
+                        <div class="text-sm text-gray-600">${p.Client}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-mono text-gray-900">${p.Contract_Value}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass}">
+                            ${statusText}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${year}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
     </script>
 </body>
