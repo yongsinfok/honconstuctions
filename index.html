@@ -29,13 +29,19 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0066FF',
-                        dark: '#111111',
+                        primary: '#2E7D32', // Forest Green
+                        secondary: '#4E342E', // Earth Brown
+                        accent: '#81C784', // Light Green
+                        surface: '#F1F8E9', // Very Light Green/Beige
+                        dark: '#1B2e1B', // Dark Green-Black
                         light: '#F8FAFC',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
                     }
                 }
             }
@@ -48,9 +54,47 @@
         }
 
         .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');
+            background-image: linear-gradient(rgba(27, 46, 27, 0.6), rgba(27, 46, 27, 0.4)), url('assets/hero-nature.png');
             background-size: cover;
             background-position: center;
+        }
+
+        .wave-separator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-separator svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+
+        .wave-separator .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        @media (min-width: 768px) {
+            .wave-separator svg {
+                height: 150px;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -116,68 +160,89 @@
 
     <!-- Hero Section -->
     <section id="hero" class="relative h-screen flex items-center justify-center hero-bg text-white">
-        <div class="max-w-5xl mx-auto px-4 text-center sm:px-6 lg:px-8 pt-20">
+        <div class="max-w-5xl mx-auto px-4 text-center sm:px-6 lg:px-8 pt-20 relative z-10">
             <span
-                class="inline-block py-1 px-3 rounded-full bg-primary/20 border border-primary/50 text-blue-100 text-xs font-bold tracking-wider mb-6 uppercase"
+                class="inline-block py-2 px-4 rounded-full bg-surface/10 border border-accent/40 text-accent text-xs font-bold tracking-wider mb-6 uppercase backdrop-blur-sm"
                 data-i18n="hero_badge">CIDB G5 持牌承包商</span>
-            <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-tight mb-6">
-                <span data-i18n="hero_title_1">掌握水網與</span> <span class="text-primary"
-                    data-i18n="hero_title_2">排污工程</span>
+            <h1
+                class="text-4xl sm:text-6xl md:text-7xl font-display font-bold tracking-tight leading-tight mb-6 text-shadow">
+                <span data-i18n="hero_title_1">與自然共生的</span> <span class="text-accent"
+                    data-i18n="hero_title_2">水利工程</span>
             </h1>
-            <p class="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light" data-i18n="hero_desc">
-                35 年經驗・持牌團隊・大型冷水 & 污水工程承包商。我們專注於：冷水系統安裝｜排水工程｜下水道主幹線｜大型住宅與商業項目水網工程。
+            <p class="text-lg sm:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed"
+                data-i18n="hero_desc">
+                打造可持續的水循環系統。我們專注於：冷水系統安裝｜生態排水工程｜下水道主幹線｜綠色建築水網。
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="#contact"
-                    class="inline-flex justify-center items-center px-8 py-4 bg-primary text-white font-bold rounded hover:bg-blue-600 transition-all transform hover:-translate-y-1 shadow-lg text-lg"
+                    class="inline-flex justify-center items-center px-8 py-4 bg-primary text-white font-bold rounded-full hover:bg-green-700 transition-all transform hover:-translate-y-1 shadow-lg text-lg border border-transparent"
                     data-i18n="cta_primary">
                     立即諮詢（免費報價）
                 </a>
                 <a href="#projects"
-                    class="inline-flex justify-center items-center px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded hover:bg-white hover:text-dark transition-all text-lg"
+                    class="inline-flex justify-center items-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-full hover:bg-white hover:text-primary transition-all text-lg"
                     data-i18n="cta_secondary">
                     查看專案
                 </a>
             </div>
         </div>
 
-        <!-- Scroll Down Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-70">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
+        <!-- Wave Separator -->
+        <div class="wave-separator">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Impact / Sustainability -->
+    <section id="impact" class="reveal py-20 bg-surface relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
+                <div class="p-6 bg-white/50 backdrop-blur-sm rounded-3xl shadow-sm hover:shadow-md transition-all">
+                    <p class="text-5xl font-display font-bold text-primary mb-2">35+</p>
+                    <p class="text-secondary font-medium" data-i18n="stat_exp">年永續工程經驗</p>
+                </div>
+                <div class="p-6 bg-white/50 backdrop-blur-sm rounded-3xl shadow-sm hover:shadow-md transition-all">
+                    <p class="text-5xl font-display font-bold text-accent mb-2">G5</p>
+                    <p class="text-secondary font-medium" data-i18n="stat_cidb">綠色建築合規</p>
+                </div>
+                <div class="p-6 bg-white/50 backdrop-blur-sm rounded-3xl shadow-sm hover:shadow-md transition-all">
+                    <p class="text-5xl font-display font-bold text-primary mb-2">100%</p>
+                    <p class="text-secondary font-medium" data-i18n="stat_compliance">環保標準執行</p>
+                </div>
+                <div class="p-6 bg-white/50 backdrop-blur-sm rounded-3xl shadow-sm hover:shadow-md transition-all">
+                    <p class="text-5xl font-display font-bold text-accent mb-2">25+</p>
+                    <p class="text-secondary font-medium" data-i18n="stat_projects">生態水利專案</p>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative Leaves -->
+        <div class="absolute -bottom-10 -left-10 text-primary/10 transform -rotate-45">
+            <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12,2C7.5,2,4,6.5,4,12s5,10,8,10c5,0,8-4.5,8-10S16.5,2,12,2z M12,20c-2,0-5-3-5-8s2.5-8,5-8s5,3,5,8S14,20,12,20z">
                 </path>
             </svg>
         </div>
     </section>
 
-    <!-- Stats / Why Us -->
-    <section id="why-us" class="py-16 bg-white border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div class="p-6">
-                    <p class="text-5xl font-display font-bold text-dark mb-2">35+</p>
-                    <p class="text-gray-500 font-medium" data-i18n="stat_exp">年工程經驗</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-5xl font-display font-bold text-primary mb-2">G5</p>
-                    <p class="text-gray-500 font-medium" data-i18n="stat_cidb">CIDB 等級</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-5xl font-display font-bold text-dark mb-2">100%</p>
-                    <p class="text-gray-500 font-medium" data-i18n="stat_compliance">合規率</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-5xl font-display font-bold text-primary mb-2">25+</p>
-                    <p class="text-gray-500 font-medium" data-i18n="stat_projects">重點專案</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Services Section -->
-    <section id="services" class="py-24 bg-light">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" class="reveal py-24 bg-surface relative overflow-hidden">
+        <!-- Background Elements -->
+        <div
+            class="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2">
+        </div>
+        <div
+            class="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Our Expertise</span>
                 <h2 class="text-3xl sm:text-4xl font-display font-bold text-dark mb-4" data-i18n="services_title">
                     我們的核心服務</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto" data-i18n="services_desc">從主幹線管道到污水處理廠對接，提供全面的水利工程解決方案。</p>
@@ -186,10 +251,10 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service Cards -->
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-lg rounded-bl-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-primary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-surface rounded-full flex items-center justify-center mb-6 group-hover:bg-primary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-primary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
@@ -202,10 +267,10 @@
                 </div>
 
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-lg rounded-br-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-secondary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-secondary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-secondary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
@@ -218,10 +283,10 @@
                 </div>
 
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-lg rounded-bl-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-primary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-surface rounded-full flex items-center justify-center mb-6 group-hover:bg-primary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-primary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
@@ -234,10 +299,10 @@
                 </div>
 
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-lg rounded-br-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-secondary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-secondary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-secondary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -249,10 +314,10 @@
                 </div>
 
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tl-[3rem] rounded-br-[3rem] rounded-tr-lg rounded-bl-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-primary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-surface rounded-full flex items-center justify-center mb-6 group-hover:bg-primary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-primary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
@@ -265,10 +330,10 @@
                 </div>
 
                 <div
-                    class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group">
+                    class="bg-white p-8 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-lg rounded-br-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-b-4 border-secondary group">
                     <div
-                        class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                        <svg class="w-6 h-6 text-primary group-hover:text-white" fill="none" stroke="currentColor"
+                        class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-secondary transition-colors shadow-inner">
+                        <svg class="w-7 h-7 text-secondary group-hover:text-white" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
@@ -283,115 +348,179 @@
         </div>
     </section>
 
-    <!-- Featured Projects -->
-    <section id="projects" class="py-24 bg-dark text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
-                <div>
-                    <h2 class="text-3xl sm:text-4xl font-display font-bold mb-4" data-i18n="proj_title">精選專案案例</h2>
-                    <p class="text-gray-400" data-i18n="proj_desc">我們近期完成與進行中的重點基礎設施工程。</p>
-                </div>
-                <a href="javascript:void(0)" onclick="openProjectsModal()"
-                    class="mt-6 md:mt-0 text-primary font-bold hover:text-white transition-colors flex items-center"
-                    data-i18n="proj_link">
-                    查看所有專案 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
-            </div>
+    <!-- Sustainability & Community -->
+    <section id="sustainability" class="reveal py-24 bg-surface/50 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <span class="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Community &
+                        Environment</span>
+                    <h2 class="text-3xl sm:text-4xl font-display font-bold text-dark mb-6" data-i18n="sust_title">
+                        永續營運與社區回饋
+                    </h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="sust_desc_1">
+                        我們不只是建設者，更是環境的守護者。HON Construction 積極參與社區淨水計畫與綠色能源推廣，致力於減少工程對生態的影響。
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed" data-i18n="sust_desc_2">
+                        透過採用環保建材與優化的施工流程，我們確保每一滴水資源都能被有效利用，為下一代保留更美好的自然環境。
+                    </p>
 
-            <!-- Project List / Grid -->
-            <div class="space-y-6">
-                <!-- Project 1 -->
-                <div
-                    class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 hover:border-primary transition-colors flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div class="flex-1">
-                        <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
-                            data-i18n="proj_1_meta">RM 6.67M • 進行中</span>
-                        <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_1_title">FASA 2 (Lot 169) -
-                            多元住宅開發</h3>
-                        <p class="text-gray-400 text-sm" data-i18n="proj_1_client">Cosmo Property Management •
-                            內外部管道、水網工程</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-green-900 text-green-300 text-xs rounded-full"
-                            data-i18n="status_76">76% 已完成</span>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div
-                    class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 hover:border-primary transition-colors flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div class="flex-1">
-                        <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
-                            data-i18n="proj_2_meta">RM 2.80M • 已完工</span>
-                        <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_2_title">住宅開發項目 (Bayan Hill)
-                        </h3>
-                        <p class="text-gray-400 text-sm" data-i18n="proj_2_client">Paramount Property Construction •
-                            半獨立式與排屋水務設施</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
-                            data-i18n="status_100">100% 已完工</span>
+                    <div class="flex gap-4">
+                        <div
+                            class="px-6 py-3 bg-white rounded-full shadow-sm text-primary font-bold border border-primary/20 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                            Eco-Friendly
+                        </div>
+                        <div
+                            class="px-6 py-3 bg-white rounded-full shadow-sm text-secondary font-bold border border-secondary/20 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z">
+                                </path>
+                            </svg>
+                            Community
+                        </div>
                     </div>
                 </div>
-
-                <!-- Project 3 -->
-                <div
-                    class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 hover:border-primary transition-colors flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div class="flex-1">
-                        <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
-                            data-i18n="proj_3_meta">RM 1.50M • 進行中</span>
-                        <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_3_title">工廠與辦公室綜合體 (Pekan Bukit
-                            Selambau)</h3>
-                        <p class="text-gray-400 text-sm" data-i18n="proj_3_client">Lagenda Setiamas Sdn. Bhd. • 2
-                            棟廠房供水安裝</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-green-900 text-green-300 text-xs rounded-full"
-                            data-i18n="status_5">5% 已啟動</span>
-                    </div>
-                </div>
-
-                <!-- Project 4 -->
-                <div
-                    class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 hover:border-primary transition-colors flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div class="flex-1">
-                        <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
-                            data-i18n="proj_4_meta">RM 1.48M • 已完工</span>
-                        <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_4_title">132kV 主變電站建築</h3>
-                        <p class="text-gray-400 text-sm" data-i18n="proj_4_client">BGMCBRAS Power Sdn. Bhd. • 太陽能 PV
-                            項目電氣結構與建築</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
-                            data-i18n="status_100">100% 已完工</span>
-                    </div>
-                </div>
-                <!-- Project 5 -->
-                <div
-                    class="bg-zinc-900 rounded-lg p-6 border border-zinc-800 hover:border-primary transition-colors flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div class="flex-1">
-                        <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
-                            data-i18n="proj_5_meta">RM 1.44M • 已完工</span>
-                        <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_5_title">大型混合住宅開發 (Bandar Lunas)
-                        </h3>
-                        <p class="text-gray-400 text-sm" data-i18n="proj_5_client">Sri Pengkalan Binaan Sdn. Bhd. •
-                            多元房型基礎設施</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
-                            data-i18n="status_100">100% 已完工</span>
+                <div class="md:w-1/2 relative">
+                    <!-- Photo collage placeholder -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div
+                            class="h-48 bg-primary/20 rounded-2xl rounded-tl-[4rem] flex items-center justify-center text-primary font-bold">
+                            Community Evt</div>
+                        <div
+                            class="h-48 bg-secondary/20 rounded-2xl rounded-tr-[4rem] flex items-center justify-center text-secondary font-bold mt-8">
+                            Green Site</div>
+                        <div
+                            class="h-48 bg-accent/20 rounded-2xl rounded-bl-[4rem] flex items-center justify-center text-dark font-bold -mt-8">
+                            Water Clean</div>
+                        <div
+                            class="h-48 bg-surface border border-primary/20 rounded-2xl rounded-br-[4rem] flex items-center justify-center text-dark font-bold">
+                            Team Work</div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
+    <!-- Featured Projects -->
+    <!-- Featured Projects -->
+    <section id="projects" class="reveal py-24 bg-dark text-white relative">
+        <div class="absolute inset-0 bg-[url('assets/hero-nature.png')] opacity-10 blur-sm bg-cover bg-fixed"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl font-display font-bold mb-4" data-i18n="proj_title">精選專案案例</h2>
+                        <p class="text-gray-400" data-i18n="proj_desc">我們近期完成與進行中的重點基礎設施工程。</p>
+                    </div>
+                    <a href="javascript:void(0)" onclick="openProjectsModal()"
+                        class="mt-6 md:mt-0 text-primary font-bold hover:text-white transition-colors flex items-center"
+                        data-i18n="proj_link">
+                        查看所有專案 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Project List / Grid -->
+                <div class="space-y-6">
+                    <!-- Project 1 -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-lg">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
+                                data-i18n="proj_1_meta">RM 6.67M • 進行中</span>
+                            <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_1_title">FASA 2 (Lot 169) -
+                                多元住宅開發</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proj_1_client">Cosmo Property Management •
+                                內外部管道、水網工程</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 bg-green-900 text-green-300 text-xs rounded-full"
+                                data-i18n="status_76">76% 已完成</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-lg">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
+                                data-i18n="proj_2_meta">RM 2.80M • 已完工</span>
+                            <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_2_title">住宅開發項目 (Bayan Hill)
+                            </h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proj_2_client">Paramount Property Construction •
+                                半獨立式與排屋水務設施</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
+                                data-i18n="status_100">100% 已完工</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-lg">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
+                                data-i18n="proj_3_meta">RM 1.50M • 進行中</span>
+                            <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_3_title">工廠與辦公室綜合體 (Pekan
+                                Bukit
+                                Selambau)</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proj_3_client">Lagenda Setiamas Sdn. Bhd. • 2
+                                棟廠房供水安裝</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 bg-green-900 text-green-300 text-xs rounded-full"
+                                data-i18n="status_5">5% 已啟動</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-lg">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
+                                data-i18n="proj_4_meta">RM 1.48M • 已完工</span>
+                            <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_4_title">132kV 主變電站建築</h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proj_4_client">BGMCBRAS Power Sdn. Bhd. • 太陽能 PV
+                                項目電氣結構與建築</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
+                                data-i18n="status_100">100% 已完工</span>
+                        </div>
+                    </div>
+                    <!-- Project 5 -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-accent transition-all duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center shadow-lg">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"
+                                data-i18n="proj_5_meta">RM 1.44M • 已完工</span>
+                            <h3 class="text-xl font-bold font-display mb-2" data-i18n="proj_5_title">大型混合住宅開發 (Bandar
+                                Lunas)
+                            </h3>
+                            <p class="text-gray-400 text-sm" data-i18n="proj_5_client">Sri Pengkalan Binaan Sdn. Bhd. •
+                                多元房型基礎設施</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-3 py-1 bg-blue-900 text-blue-300 text-xs rounded-full"
+                                data-i18n="status_100">100% 已完工</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
     <!-- About / Certs -->
-    <section id="about" class="py-24 bg-white">
+    <section id="about" class="reveal py-24 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-display font-bold text-dark mb-8" data-i18n="about_title">資質認證與註冊</h2>
             <p class="text-gray-600 mb-12" data-i18n="about_desc">我們是完全持牌的承包商，嚴格遵守馬來西亞建築與水務當局制定的標準。</p>
@@ -410,7 +539,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-24 bg-light">
+    <section id="contact" class="reveal py-24 bg-light">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-16">
                 <!-- Info -->
@@ -629,13 +758,17 @@
                 "cta_primary": "Request Free Quote",
                 "cta_secondary": "View Projects",
 
-                "stat_exp": "Years Experience",
-                "stat_cidb": "CIDB Grade",
-                "stat_compliance": "Compliance Rate",
-                "stat_projects": "Major Projects",
+                "stat_exp": "Years Sustainable Eng.",
+                "stat_cidb": "Green Building Compliant",
+                "stat_compliance": "Eco Standards",
+                "stat_projects": "Eco-Water Projects",
 
                 "services_title": "Our Core Services",
                 "services_desc": "Comprehensive water engineering solutions from mainframe piping to treatment plant connections.",
+
+                "sust_title": "Sustainability & Community",
+                "sust_desc_1": "We are not just builders, but guardians of the environment. HON Construction actively participates in community water projects and green energy promotion.",
+                "sust_desc_2": "Through eco-friendly materials and optimized processes, we ensure every drop of water is used effectively for a better future.",
 
                 "svc_cold_title": "Cold Water Systems",
                 "svc_cold_desc": "External & internal cold water plumbing installation for residential and commercial buildings.",
@@ -715,13 +848,17 @@
                 "cta_primary": "立即諮詢（免費報價）",
                 "cta_secondary": "查看專案",
 
-                "stat_exp": "年工程經驗",
-                "stat_cidb": "CIDB 等級",
-                "stat_compliance": "合規率",
-                "stat_projects": "重點專案",
+                "stat_exp": "年永續工程經驗",
+                "stat_cidb": "綠色建築合規",
+                "stat_compliance": "環保標準執行",
+                "stat_projects": "生態水利專案",
 
                 "services_title": "我們的核心服務",
                 "services_desc": "從主幹線管道到污水處理廠對接，提供全面的水利工程解決方案。",
+
+                "sust_title": "永續營運與社區回饋",
+                "sust_desc_1": "我們不只是建設者，更是環境的守護者。HON Construction 積極參與社區淨水計畫與綠色能源推廣，致力於減少工程對生態的影響。",
+                "sust_desc_2": "透過採用環保建材與優化的施工流程，我們確保每一滴水資源都能被有效利用，為下一代保留更美好的自然環境。",
 
                 "svc_cold_title": "冷水系統安裝",
                 "svc_cold_desc": "適合住宅與商業建築的屋內外冷水管道安裝工程。",
@@ -1217,6 +1354,21 @@
                 tbody.appendChild(tr);
             });
         }
+
+        // Scroll Reveal
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
     </script>
 </body>
 
