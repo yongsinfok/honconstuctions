@@ -84,6 +84,15 @@
                     <button onclick="toggleLanguage()"
                         class="text-sm font-bold border border-gray-300 px-3 py-1 rounded hover:bg-gray-100 uppercase"
                         id="lang-toggle-desktop">EN</button>
+                    <a href="admin.html" class="p-2 text-gray-500 hover:text-primary transition-colors" title="Admin">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </a>
                     <a href="#contact"
                         class="px-5 py-2.5 bg-dark text-white text-sm font-bold rounded hover:bg-primary transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg"
                         data-i18n="nav_contact">立即諮詢</a>
@@ -94,6 +103,15 @@
                     <button onclick="toggleLanguage()"
                         class="text-sm font-bold border border-gray-300 px-3 py-1 rounded hover:bg-gray-100 uppercase"
                         id="lang-toggle-mobile">EN</button>
+                    <a href="admin.html" class="p-2 text-gray-500 hover:text-primary transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </a>
                     <button id="mobile-menu-btn" class="text-dark hover:text-primary focus:outline-none p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -109,6 +127,7 @@
                 <a href="#services" class="text-base font-medium" data-i18n="nav_services">服務項目</a>
                 <a href="#projects" class="text-base font-medium" data-i18n="nav_projects">專案案例</a>
                 <a href="#about" class="text-base font-medium" data-i18n="nav_about">關於我們</a>
+                <a href="admin.html" class="text-base font-medium" data-i18n="nav_admin">后台管理</a>
                 <a href="#contact" class="text-base font-bold text-primary" data-i18n="nav_contact">立即諮詢</a>
             </div>
         </div>
@@ -619,8 +638,9 @@
             "en": {
                 "nav_services": "Services",
                 "nav_projects": "Projects",
-                "nav_about": "About",
-                "nav_contact": "Get Quote",
+                "nav_about": "About Us",
+                "nav_admin": "Admin",
+                "nav_contact": "Enquire Now",
 
                 "hero_badge": "CIDB Grade G5 Licensed Contractor",
                 "hero_title_1": "Reliable Water Reticulation &",
@@ -706,6 +726,7 @@
                 "nav_services": "服務項目",
                 "nav_projects": "專案案例",
                 "nav_about": "關於我們",
+                "nav_admin": "后台管理",
                 "nav_contact": "立即諮詢",
 
                 "hero_badge": "CIDB G5 持牌承包商",
@@ -800,9 +821,9 @@
                 const key = element.getAttribute('data-i18n');
                 if (translations[currentLang][key]) {
                     if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        // Optional: placeholder handling if needed, but here label is translated
+                        // Placeholder handled if needed, but primary labels are in data-i18n
                     } else {
-                        element.innerHTML = translations[currentLang][key]; // innerHTML to support <span class="..."> in hero title
+                        element.innerHTML = translations[currentLang][key]; // innerHTML to support <span> in hero title
                     }
                 }
             });
@@ -811,8 +832,31 @@
             const btnText = currentLang === 'cn' ? 'EN' : 'CN';
             document.getElementById('lang-toggle-desktop').innerText = btnText;
             document.getElementById('lang-toggle-mobile').innerText = btnText;
-            document.documentElement.lang = currentLang;
+            document.documentElement.lang = currentLang === 'cn' ? 'zh-CN' : 'en';
         }
+
+        // --- Dynamic Background Logic ---
+        function loadDynamicBackground() {
+            const heroSection = document.getElementById('hero');
+            if (!heroSection) return;
+
+            const supabaseUrl = 'https://ozuuodldwrgiahnlfmig.supabase.co';
+            const imageUrl = `${supabaseUrl}/storage/v1/object/public/content/hero-bg.jpg?t=${new Date().getTime()}`;
+            const fallbackUrl = 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop';
+
+            // Check if Supabase image exists
+            const img = new Image();
+            img.onload = function () {
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${imageUrl}')`;
+            };
+            img.onerror = function () {
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${fallbackUrl}')`;
+            };
+            img.src = imageUrl;
+        }
+
+        // Initialize background on load
+        window.addEventListener('DOMContentLoaded', loadDynamicBackground);
 
         function sendWhatsApp() {
             const name = document.getElementById('wa-name').value;

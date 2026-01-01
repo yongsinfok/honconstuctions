@@ -24,6 +24,7 @@
 ```
 .
 ├── assets/             # 靜態資源（圖片、圖標等）
+├── admin.html          # 背景圖片管理器（供客戶上傳新背景）
 ├── index.html          # 網站主頁（包含所有前端代碼）
 ├── process_data.py     # Python 腳本，用於處理原始專案數據並生成 JSON/CSV
 ├── data.json           # 由腳本生成的專案數據（可用於前端動態加載）
@@ -53,7 +54,16 @@
 *   **Netlify / Vercel**: 直接將專案文件夾拖入即可。
 *   **GitHub Pages**: 將代碼推送到 GitHub 倉庫並開啟 Pages 服務。
 
-## 📝 編輯內容
+## 🖼 背景圖片管理 (Dynamic Background)
+
+客戶現在可以隨時更換首頁背景圖：
+1.  打開 `admin.html`。
+2.  選擇一張新的圖片並點擊「上傳」。
+3.  圖片將自動保存在 Supabase Storage 中，首頁背景將實時更新。
+
+> [!NOTE]
+> `admin.html` 使用了您提供的 Supabase Keys 進行認證。請確保此文件的訪問權限僅限於管理員。
+
 
 *   **文字內容**: 大部分文字直接位於 `index.html` 中，部分動態文字（如多語言切換）位於底部的 `translations` 對象中。
 *   **樣式**: 直接在 HTML 元素的 `class` 屬性中修改 Tailwind 類名。
