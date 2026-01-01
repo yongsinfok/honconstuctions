@@ -41,6 +41,24 @@
             }
         }
     </script>
+    <script>
+            // --- Dynamic Background Optimizer (Prevent Flicker) ---
+            (function () {
+                const supabaseUrl = 'https://ozuuodldwrgiahnlfmig.supabase.co';
+                const imageUrl = supabaseUrl + '/storage/v1/object/public/content/hero-bg.jpg?t=' + new Date().getTime();
+                const fallbackUrl = 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop';
+
+                // Start preloading immediately
+                const img = new Image();
+                img.onload = function () {
+                    document.documentElement.style.setProperty('--hero-url', 'url("' + imageUrl + '")');
+                };
+                img.onerror = function () {
+                    document.documentElement.style.setProperty('--hero-url', 'url("' + fallbackUrl + '")');
+                };
+                img.src = imageUrl;
+            })();
+    </script>
     <style>
         /* Custom Utilities */
         .text-shadow {
@@ -48,9 +66,10 @@
         }
 
         .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--hero-url, none);
             background-size: cover;
             background-position: center;
+            background-color: #111;
         }
     </style>
 </head>
@@ -835,28 +854,7 @@
             document.documentElement.lang = currentLang === 'cn' ? 'zh-CN' : 'en';
         }
 
-        // --- Dynamic Background Logic ---
-        function loadDynamicBackground() {
-            const heroSection = document.getElementById('hero');
-            if (!heroSection) return;
-
-            const supabaseUrl = 'https://ozuuodldwrgiahnlfmig.supabase.co';
-            const imageUrl = `${supabaseUrl}/storage/v1/object/public/content/hero-bg.jpg?t=${new Date().getTime()}`;
-            const fallbackUrl = 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop';
-
-            // Check if Supabase image exists
-            const img = new Image();
-            img.onload = function () {
-                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${imageUrl}')`;
-            };
-            img.onerror = function () {
-                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${fallbackUrl}')`;
-            };
-            img.src = imageUrl;
-        }
-
-        // Initialize background on load
-        window.addEventListener('DOMContentLoaded', loadDynamicBackground);
+        // Initialize background on load moved to head to prevent flicker
 
         function sendWhatsApp() {
             const name = document.getElementById('wa-name').value;
